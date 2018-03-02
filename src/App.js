@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import { initializeApp } from 'firebase';
+import { initializeApp } from 'firebase/app';
 import config from './config';
 import rootReducer from './reducers';
 import Header from './components/Header';
