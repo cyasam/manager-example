@@ -56,7 +56,6 @@ class LoginForm extends Component {
       <View>
         <Input
           label="Email"
-          placeholder="example@example.com"
           value={this.props.email}
           keyboardType="email-address"
           autoCapitalize="none"
@@ -64,7 +63,6 @@ class LoginForm extends Component {
         />
         <Input
           label="Password"
-          placeholder="password"
           value={this.props.password}
           autoCapitalize="none"
           secureTextEntry

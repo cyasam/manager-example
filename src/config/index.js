@@ -7,4 +7,5 @@ export default {
     storageBucket: '',
     messagingSenderId: '56778202026',
   },
+  headerBgColor: '#f00',
 };

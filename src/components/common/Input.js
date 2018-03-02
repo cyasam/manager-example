@@ -8,12 +8,13 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   input: {
-    height: 40,
+    height: 36,
     fontSize: 16,
     padding: 0,
     margin: 0,
-    marginBottom: 10,
-    borderWidth: 0,
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#000',
     color: '#000',
   },
 });
@@ -34,6 +35,7 @@ const Input = (props) => {
         autoCapitalize={autoCapitalize}
         secureTextEntry={secureTextEntry}
         onChangeText={text => onChangeText(text)}
+        underlineColorAndroid="transparent"
       />
     </View>
   );
