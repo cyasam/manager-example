@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
-import { initializeApp } from 'firebase/app';
+import firebase from 'firebase';
 import config from './config';
 import rootReducer from './reducers';
 import Header from './components/Header';
@@ -14,7 +14,7 @@ const store = createStore(rootReducer, applyMiddleware(thunk, logger));
 
 class App extends Component {
   componentDidMount() {
-    initializeApp(config.firebase);
+    firebase.initializeApp(config.firebase);
   }
 
   render() {

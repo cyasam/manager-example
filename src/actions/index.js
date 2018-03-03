@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import firebase from 'firebase';
 
 export const CHANGE_EMAIL = 'CHANGE_EMAIL';
 export const CHANGE_PASSWORD = 'CHANGE_PASSWORD';
@@ -22,7 +22,7 @@ export const onPressLoginButton = (email, password) => (dispatch) => {
     type: LOGIN_LOADING,
   });
 
-  const authPromise = signInWithEmailAndPassword(email, password);
+  const authPromise = firebase.auth().signInWithEmailAndPassword(email, password);
 
   authPromise.then((user) => {
     dispatch({
