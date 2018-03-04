@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { reduxForm, Field } from 'redux-form';
-import { employeeSave } from '../actions';
+import { employeeSave, deleteEmployee } from '../actions';
 import Input from './common/Input';
 import Button from './common/Button';
 import DayPicker from './common/DayPicker';
@@ -17,6 +17,9 @@ const styles = {
     marginBottom: 15,
     color: '#f00',
   },
+  deleteButton: {
+    marginTop: 15,
+  },
 };
 
 class EmployeeForm extends Component {
@@ -25,11 +28,19 @@ class EmployeeForm extends Component {
 
     if (Object.keys(employee).length) {
       return (
-        <Button
-          onPress={handleSubmit(values => this.props.employeeSave('update', values, employee.uid))}
-        >
-          Update
-        </Button>
+        <Fragment>
+          <Button
+            onPress={handleSubmit(values => this.props.employeeSave('update', values, employee.uid))}
+          >
+            Update
+          </Button>
+          <Button
+            style={styles.deleteButton}
+            onPress={handleSubmit(() => this.props.deleteEmployee(employee.uid))}
+          >
+            Delete
+          </Button>
+        </Fragment>
       );
     }
 
@@ -81,6 +92,7 @@ EmployeeForm.propTypes = {
   loading: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
   employeeSave: PropTypes.func.isRequired,
+  deleteEmployee: PropTypes.func.isRequired,
 };
 
 const EmployeeFormWithReduxForm = reduxForm({ form: 'employeeForm' })(EmployeeForm);
@@ -96,4 +108,7 @@ const mapStateToProps = (state, { employee }) => ({
   },
 });
 
-export default connect(mapStateToProps, { employeeSave })(EmployeeFormWithReduxForm);
+export default connect(
+  mapStateToProps,
+  { employeeSave, deleteEmployee },
+)(EmployeeFormWithReduxForm);

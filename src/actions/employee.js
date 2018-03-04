@@ -18,9 +18,9 @@ export const loadEmployeeList = () => (dispatch) => {
   dispatch(reset('employeeForm'));
 
   const { currentUser } = firebase.auth();
-  const getData = firebase.database().ref(`/users/${currentUser.uid}/employee`);
+  const req = firebase.database().ref(`/users/${currentUser.uid}/employee`);
 
-  getData.on('value', (snapshot) => {
+  req.on('value', (snapshot) => {
     const newData = { ...snapshot.val() };
 
     Object.keys(newData).forEach((uid) => {
@@ -36,9 +36,9 @@ export const loadEmployeeList = () => (dispatch) => {
 
 const addEmployee = (values, dispatch) => {
   const { currentUser } = firebase.auth();
-  const sendData = firebase.database().ref(`/users/${currentUser.uid}/employee`);
+  const req = firebase.database().ref(`/users/${currentUser.uid}/employee`);
 
-  sendData.push({ ...values }).then(() => {
+  req.push({ ...values }).then(() => {
     dispatch({
       type: SAVE_EMPLOYEE_SUCCESS,
       payload: {
@@ -59,9 +59,9 @@ const addEmployee = (values, dispatch) => {
 
 const updateEmployee = (values, uid, dispatch) => {
   const { currentUser } = firebase.auth();
-  const sendData = firebase.database().ref(`/users/${currentUser.uid}/employee/${uid}`);
+  const req = firebase.database().ref(`/users/${currentUser.uid}/employee/${uid}`);
 
-  sendData.set({ ...values }).then(() => {
+  req.set({ ...values }).then(() => {
     dispatch({
       type: SAVE_EMPLOYEE_SUCCESS,
       payload: {
@@ -77,6 +77,15 @@ const updateEmployee = (values, uid, dispatch) => {
         error: true,
       },
     });
+  });
+};
+
+export const deleteEmployee = uid => () => {
+  const { currentUser } = firebase.auth();
+  const req = firebase.database().ref(`/users/${currentUser.uid}/employee/${uid}`);
+
+  req.remove().then(() => {
+    Actions.pop('employeeList');
   });
 };
 

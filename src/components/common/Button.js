@@ -16,12 +16,17 @@ const styles = {
 };
 
 const Button = (props) => {
-  const { children, onPress, disabled } = props;
+  const {
+    style,
+    children,
+    onPress,
+    disabled,
+  } = props;
 
   if (disabled) {
     return (
       <View
-        style={{ ...styles.button, opacity: 0.7 }}
+        style={{ ...styles.button, ...style, opacity: 0.7 }}
       >
         <Text style={styles.buttonText}>{ children }</Text>
       </View>
@@ -30,7 +35,7 @@ const Button = (props) => {
 
   return (
     <TouchableOpacity
-      style={{ ...styles.button }}
+      style={{ ...styles.button, ...style }}
       activeOpacity={0.8}
       onPress={() => onPress()}
     >
@@ -40,10 +45,12 @@ const Button = (props) => {
 };
 
 Button.defaultProps = {
+  style: {},
   disabled: false,
 };
 
 Button.propTypes = {
+  style: PropTypes.object,
   disabled: PropTypes.bool,
   children: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
