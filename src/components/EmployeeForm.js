@@ -68,7 +68,6 @@ class EmployeeForm extends Component {
           label="Phone"
           component={Input}
           keyboardType="phone-pad"
-          secureTextEntry
         />
         <Field
           name="shift"
