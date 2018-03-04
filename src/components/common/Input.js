@@ -42,20 +42,22 @@ const Input = (props) => {
 };
 
 Input.defaultProps = {
+  value: '',
   secureTextEntry: false,
   placeholder: null,
   keyboardType: null,
   autoCapitalize: null,
+  onChangeText() { },
 };
 
 Input.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   label: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   keyboardType: PropTypes.string,
   autoCapitalize: PropTypes.string,
   secureTextEntry: PropTypes.bool,
-  onChangeText: PropTypes.func.isRequired,
+  onChangeText: PropTypes.func,
 };
 
 export default Input;

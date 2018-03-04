@@ -7,8 +7,7 @@ import logger from 'redux-logger';
 import firebase from 'firebase';
 import config from './config';
 import rootReducer from './reducers';
-import Header from './components/Header';
-import LoginForm from './components/LoginForm';
+import Router from './Router';
 
 const store = createStore(rootReducer, applyMiddleware(thunk, logger));
 
@@ -20,16 +19,12 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        <View>
+        <View style={{ flex: 1 }}>
           <StatusBar
             backgroundColor={config.headerBgColor}
             barStyle="light-content"
-            translucent
           />
-          <Header text="Login" />
-          <View style={{ padding: 20 }}>
-            <LoginForm />
-          </View>
+          <Router />
         </View>
       </Provider>
     );

@@ -53,7 +53,7 @@ class LoginForm extends Component {
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1, padding: 15 }}>
         <Input
           label="Email"
           value={this.props.email}
