@@ -1,8 +1,8 @@
 import React from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import PropTypes from 'prop-types';
 
-const styles = StyleSheet.create({
+const styles = {
   button: {
     alignItems: 'center',
     height: 40,
@@ -13,13 +13,24 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
   },
-});
+};
 
 const Button = (props) => {
-  const { children, onPress } = props;
+  const { children, onPress, disabled } = props;
+
+  if (disabled) {
+    return (
+      <View
+        style={{ ...styles.button, opacity: 0.7 }}
+      >
+        <Text style={styles.buttonText}>{ children }</Text>
+      </View>
+    );
+  }
+
   return (
     <TouchableOpacity
-      style={styles.button}
+      style={{ ...styles.button }}
       activeOpacity={0.8}
       onPress={() => onPress()}
     >
@@ -28,7 +39,12 @@ const Button = (props) => {
   );
 };
 
+Button.defaultProps = {
+  disabled: false,
+};
+
 Button.propTypes = {
+  disabled: PropTypes.bool,
   children: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
 };

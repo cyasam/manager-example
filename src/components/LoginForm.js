@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, Text, ActivityIndicator } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { reduxForm, Field } from 'redux-form';
 import Input from './common/Input';
 import Button from './common/Button';
-import { changeEmailText, changePasswordText, onPressLoginButton } from '../actions';
+import Loading from './common/Loading';
+import { onPressLoginButton } from '../actions';
 
 const styles = StyleSheet.create({
-  loading: {
-    marginBottom: 10,
-  },
   error: {
     alignItems: 'center',
     marginBottom: 10,
@@ -20,30 +19,24 @@ const styles = StyleSheet.create({
   },
 });
 
+const validate = (values) => {
+  const errors = {};
+
+  if (!values.email) {
+    errors.email = true;
+  } if (!values.password) {
+    errors.password = true;
+  }
+
+  return errors;
+};
+
 class LoginForm extends Component {
-  onPressLoginButton() {
-    const { email, password } = this.props;
-
-    this.props.onPressLoginButton(email, password);
-  }
-
-  changeEmailText(text) {
-    this.props.changeEmailText(text);
-  }
-
-  changePasswordText(text) {
-    this.props.changePasswordText(text);
-  }
-
-  renderLoading() {
-    return this.props.loading ? <ActivityIndicator style={styles.loading} /> : null;
-  }
-
   renderError() {
-    if (this.props.error) {
+    if (this.props.authError) {
       return (
         <View style={styles.error}>
-          <Text style={styles.errorText}>{ this.props.error }</Text>
+          <Text style={styles.errorText}>{ this.props.authError }</Text>
         </View>
       );
     }
@@ -52,26 +45,34 @@ class LoginForm extends Component {
   }
 
   render() {
+    const {
+      handleSubmit,
+      loading,
+      submitting,
+      invalid,
+    } = this.props;
+
     return (
       <View style={{ flex: 1, padding: 15 }}>
-        <Input
+        <Field
+          name="email"
           label="Email"
-          value={this.props.email}
+          component={Input}
           keyboardType="email-address"
           autoCapitalize="none"
-          onChangeText={text => this.changeEmailText(text)}
         />
-        <Input
+        <Field
+          name="password"
           label="Password"
-          value={this.props.password}
+          component={Input}
           autoCapitalize="none"
           secureTextEntry
-          onChangeText={text => this.changePasswordText(text)}
         />
         { this.renderError() }
-        { this.renderLoading() }
+        <Loading loading={loading} style={{ marginBottom: 10 }} />
         <Button
-          onPress={() => this.onPressLoginButton()}
+          disabled={invalid || submitting}
+          onPress={handleSubmit(values => this.props.onPressLoginButton(values))}
         >
           Login
         </Button>
@@ -82,23 +83,27 @@ class LoginForm extends Component {
 
 const mapStateToProps = state => ({
   loading: state.auth.loading,
-  email: state.auth.email,
-  password: state.auth.password,
-  error: state.auth.error,
+  authError: state.auth.error,
 });
 
+LoginForm.defaultProps = {
+  authError: '',
+};
+
 LoginForm.propTypes = {
+  invalid: PropTypes.bool.isRequired,
+  submitting: PropTypes.bool.isRequired,
   loading: PropTypes.bool.isRequired,
-  email: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  error: PropTypes.string.isRequired,
-  changeEmailText: PropTypes.func.isRequired,
-  changePasswordText: PropTypes.func.isRequired,
+  authError: PropTypes.string,
+  handleSubmit: PropTypes.func.isRequired,
   onPressLoginButton: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, {
-  changeEmailText,
-  changePasswordText,
-  onPressLoginButton,
+const LoginFormWithReduxForm = reduxForm({
+  form: 'loginForm',
+  validate,
 })(LoginForm);
+
+export default connect(mapStateToProps, {
+  onPressLoginButton,
+})(LoginFormWithReduxForm);

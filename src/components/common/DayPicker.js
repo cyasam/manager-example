@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput } from 'react-native';
+import { StyleSheet, View, Picker, Text } from 'react-native';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
@@ -7,25 +7,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000',
   },
-  input: {
-    height: 36,
-    fontSize: 16,
-    padding: 0,
-    margin: 0,
-    marginBottom: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#000',
-    color: '#000',
-  },
 });
 
-const Input = (props) => {
+const DayPicker = (props) => {
   const {
     input: {
-      onBlur,
-      onFocus,
-      onChange,
       value,
+      onChange,
     },
     label,
     ...inputProps
@@ -34,20 +22,23 @@ const Input = (props) => {
   return (
     <View>
       <Text style={styles.label}>{label}</Text>
-      <TextInput
+      <Picker
         {...inputProps}
-        style={styles.input}
-        onBlur={onBlur}
-        onFocus={onFocus}
-        value={value}
-        onChangeText={onChange}
-        underlineColorAndroid="transparent"
-      />
+        selectedValue={value}
+        onValueChange={onChange}
+      >
+        <Picker.Item label="Monday" value="monday" />
+        <Picker.Item label="Tuesday" value="tuesday" />
+        <Picker.Item label="Wednesday" value="wednesday" />
+        <Picker.Item label="Thursday" value="thursday" />
+        <Picker.Item label="Friday" value="friday" />
+        <Picker.Item label="Saturday" value="saturday" />
+      </Picker>
     </View>
   );
 };
 
-Input.defaultProps = {
+DayPicker.defaultProps = {
   value: '',
   secureTextEntry: false,
   placeholder: null,
@@ -56,7 +47,7 @@ Input.defaultProps = {
   onChangeText() { },
 };
 
-Input.propTypes = {
+DayPicker.propTypes = {
   input: PropTypes.object.isRequired,
   value: PropTypes.string,
   label: PropTypes.string.isRequired,
@@ -67,4 +58,4 @@ Input.propTypes = {
   onChangeText: PropTypes.func,
 };
 
-export default Input;
+export default DayPicker;
