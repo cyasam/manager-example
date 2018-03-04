@@ -6,9 +6,8 @@ import capitalize from 'capitalize';
 
 const styles = {
   box: {
-    marginBottom: 10,
-    padding: 10,
-    backgroundColor: '#fff',
+    marginBottom: 15,
+    padding: 15,
     borderRadius: 5,
   },
   texts: {

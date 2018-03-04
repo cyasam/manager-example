@@ -7,7 +7,7 @@ import AddEmployee from './components/AddEmployee';
 import EditEmployee from './components/EditEmployee';
 
 const RouterContainer = () => (
-  <Router>
+  <Router sceneStyle={{ backgroundColor: '#fff' }}>
     <Stack
       key="root"
       hideNavBar

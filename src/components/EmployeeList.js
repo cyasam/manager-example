@@ -14,9 +14,21 @@ class EmployeeList extends Component {
   renderList() {
     const { employees, loading } = this.props;
     if (loading) {
-      return <Loading loading={loading} />;
+      return (
+        <View
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Loading loading={loading} />
+        </View>
+      );
     } else if (!Object.keys(employees).length && !loading) {
-      return <Text>No employees found.</Text>;
+      return (
+        <View
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
+          <Text>No employees found.</Text>
+        </View>
+      );
     }
 
     const ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
@@ -24,6 +36,8 @@ class EmployeeList extends Component {
 
     return (
       <ListView
+        contentContainerStyle={{ paddingHorizontal: 15, paddingTop: 15 }}
+        style={{ flex: 1 }}
         dataSource={dataSource}
         renderRow={rowData => <EmployeeListItem data={rowData} />}
       />
@@ -32,7 +46,9 @@ class EmployeeList extends Component {
 
   render() {
     return (
-      <View style={{ flex: 1, padding: 15 }}>
+      <View
+        style={{ flex: 1 }}
+      >
         { this.renderList() }
       </View>
     );
